@@ -1,0 +1,102 @@
+package com.pack.fabo.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
+@Entity
+public class ClientUser {
+	
+  @Id
+  private String userName;
+  private String email;
+  private String storeCode;
+  private String storeName;
+  private String displayName;
+  private String phoneNumber;
+  @Column(name = "concatenated_role_names")
+  private String concatenatedRoleNames;
+  
+  public ClientUser(String userName, String email, String storeCode, String storeName, String displayName,
+		String phoneNumber, String concatenatedRoleNames) {
+	this.userName = userName;
+	this.email = email;
+	this.storeCode = storeCode;
+	this.storeName = storeName;
+	this.displayName = displayName;
+	this.phoneNumber = phoneNumber;
+	this.concatenatedRoleNames = concatenatedRoleNames;
+}
+
+public String getUserName() {
+	return userName;
+}
+
+public void setUserName(String userName) {
+	this.userName = userName;
+}
+
+public String getEmail() {
+	return email;
+}
+
+public void setEmail(String email) {
+	this.email = email;
+}
+
+public String getStoreCode() {
+	return storeCode;
+}
+
+public void setStoreCode(String storeCode) {
+	this.storeCode = storeCode;
+}
+
+public String getStoreName() {
+	return storeName;
+}
+
+public void setStoreName(String storeName) {
+	this.storeName = storeName;
+}
+
+public String getDisplayName() {
+	return displayName;
+}
+
+public void setDisplayName(String displayName) {
+	this.displayName = displayName;
+}
+
+public String getPhoneNumber() {
+	return phoneNumber;
+}
+
+public void setPhoneNumber(String phoneNumber) {
+	this.phoneNumber = phoneNumber;
+}
+
+public String getConcatenatedRoleNames() {
+	return concatenatedRoleNames;
+}
+
+public void setConcatenatedRoleNames(String concatenatedRoleNames) {
+	this.concatenatedRoleNames = concatenatedRoleNames;
+}
+
+
+@Override
+public String toString() {
+	return "ClientUser [userName=" + userName + ", email=" + email + ", storeCode=" + storeCode + ", storeName="
+			+ storeName + ", displayName=" + displayName + ", phoneNumber=" + phoneNumber + ", concatenatedRoleNames="
+			+ concatenatedRoleNames + "]";
+}
+
+public ClientUser() {
+	  
+  }
+
+
+}
+
