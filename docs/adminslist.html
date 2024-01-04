@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" th:href="@{css/adminslist.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Document</title>
+    
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+            </div>
+            <div class="sbbuttons">
+                <button id="button1" onclick="toggleSubMenu('submenu1')">Client<br>Management</button>
+                <ul class="submenu" id="submenu1">
+                    <li onclick="openPopup('addClientsPopup')">Add Clients</li>
+                    <li > Manage Clients</li>
+                </ul>
+    
+                <button id="button2" onclick="toggleSubMenu('submenu2')">Client User <br>Management</button>
+                <ul class="submenu" id="submenu2">
+                    <li onclick="openPopup('addUserPopup')">Add User</li>
+                    <li > Manage Users</li>
+                </ul>
+    
+                <button id="button3" onclick="toggleSubMenu('submenu3')">Admin User <br>Management</button>
+                <ul class="submenu" id="submenu3">
+                    <li onclick="openPopup('addAdminPopup')">Add Admin</li>
+                    <li >ManageAdmins</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Admins List</h2>
+                    <div class="close-button">
+                        <li><a href=home>X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="filters">
+                    <form  id="filterForm">
+                        <div class="fil-1">
+                            <select id="accesses" name="accesses">
+                              <option value=""disabled selected>select accesses</option>
+                                <option value="Support">Support</option>
+                                <option value="Accounts">Accounts</option>
+                                <option value="creatives">creatives</option>
+                                <option value="products">products</option>
+                            </select>
+                        </div>
+                        </form>
+                         <div class="search-container">
+                            <div class="search-icon">
+                              <i class="fas fa-search"></i>
+                            </div>
+                            <form th:action="@{faboAdmins}" method="post">
+                             <input type="text" name="search" id="searchInput" class="search-bar" placeholder="Search">
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+                  <h3>Total number of admins: <span th:text="${#lists.size(admins)}"></span></h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                
+                                <th>User Name</th>
+                                <th>Email</th>                               
+                                <th>Phone</th>
+                                <th>Accesses</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                            <tr th:each = "admin: ${admins}">
+                                <td th:text = "${admin.userName}"></td>
+					<td th:text = "${admin.email}"></td>
+					<td th:text = "${admin.phoneNumber}"></td>
+					<td th:text = "${admin.concatenatedRoleNames}"></td>
+                                <td>
+                                   <li><a th:href = "@{/adminview/{userName}(userName=${admin.userName})}">👁️</a></li>
+                                    <li><a th:href = "@{/admins/edit/{userName}(userName=${admin.userName})}">✏️</a></li>
+                                   <span class="action-icon delete-icon" ><a th:href = "@{/admin/{email}(email=${admin.email})}" onclick="return confirmDelete('${admin.email}')">🗑️</a></span> 
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="popup" id="deleteConfirmationPopup">
+            <div class="card">
+                <div class="wrapper">
+                    
+                    <p>Are You Sure To Delete This Admin??</p>
+                    <div class="button-container">
+                        <button onclick="confirmDelete()">Yes</button>
+                        <button onclick="cancelDelete()">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPopup(popupId) {
+            var popup = document.getElementById(popupId);
+            if (popup) {
+                popup.style.display = "block";
+            }
+        }
+    
+        function showDeleteConfirmationPopup() {
+            var deleteConfirmationPopup = document.getElementById("deleteConfirmationPopup");
+            deleteConfirmationPopup.style.display = "block";
+            document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        }
+    
+        function cancelDelete() {
+            closeDeleteConfirmationPopup();
+        }
+    
+        function closeDeleteConfirmationPopup() {
+            var deleteConfirmationPopup = document.getElementById("deleteConfirmationPopup");
+            deleteConfirmationPopup.style.display = "none";
+            document.body.style.backgroundColor = "";
+        }
+        
+        const accesses = document.getElementById('accesses');
+        const filterForm = document.getElementById('filterForm');
+
+        // Add onchange event listener to accesses dropdown
+        accesses.addEventListener('change', function() {
+            filterForm.submit(); // Submit form when accesses selection changes
+        });
+    
+    
+     // Function to open the confirmation popup
+        function openConfirmationPopup(email) {
+            // Show the popup
+            document.getElementById("deleteConfirmationPopup").style.display = "block";
+
+            // Pass the email to be deleted to confirmDelete function
+            window.emailToDelete = email;
+        }
+        function confirmDelete(email) {
+            var confirmation = confirm("Are you sure you want to delete this admin?");
+            if (confirmation) {
+                window.location.href = `/admin/${email}`;
+            } else {
+                alert("Deletion canceled.");
+                return false;
+            }
+        }
+
+    </script>
+    
+</body>
+</html>
