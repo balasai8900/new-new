@@ -18,7 +18,7 @@ public class ImageUploadController {
     
     @GetMapping("/creatives")
     public String showCreatives() {
-    	return "creatives2";
+    	return "creatives";
     }
 
     @PostMapping("/upload/store")
@@ -58,7 +58,7 @@ public class ImageUploadController {
             imageService.storeImage(file8, category);
         }
         
-        return "redirect:/creatives2"; // Redirect to a specific page after uploading
+        return "redirect:/creatives"; // Redirect to a specific page after uploading
     }
 
 

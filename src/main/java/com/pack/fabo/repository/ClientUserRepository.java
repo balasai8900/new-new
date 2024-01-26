@@ -11,10 +11,13 @@ import com.pack.fabo.entity.ClientUser;
 
 public interface ClientUserRepository extends JpaRepository<ClientUser, String>{
 	
-	@Query("SELECT DISTINCT c.storeCode FROM ClientUser c")
+	
+	@Query("SELECT DISTINCT c.storeCode FROM ClientUser c WHERE c.activeStatus = true ")
     List<String> findDistinctStoreCodes();
 
     List<ClientUser> findByStoreCode(String storeCode);
+    
+    List<ClientUser> findByActiveStatusTrue();
 
     @Query("SELECT c FROM ClientUser c WHERE " +
             "LOWER(c.email) LIKE %:searchTerm% OR " +

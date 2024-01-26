@@ -363,32 +363,32 @@ height: 70%;
                  <form th:action="@{/clientUsers/{userName}(userName=${clientUser.userName})}" th:object="${clientUser}" method="POST">
                     <div class="user-detail">
                         <div class="input-box">
-                                <span class="details">Store Code</span>
+                                <span class="details">Store Code <sup style="color:red;">*</sup> </span>
                                 <input type="text" th:readonly="true" th:field = "*{storeCode}" placeholder="Enter Store Code" required >
                             </div>
 
                             <div class="input-box">
-                                <span class="details">Store Name</span>
+                                <span class="details">Store Name <sup style="color:red;">*</sup> </span>
                                 <input type="text" th:readonly="true" th:field = "*{storeName}" placeholder="Enter Store Name" required >
                             </div>
 
                             <div class="input-box">
-                                <span class="details">User Name</span>
+                                <span class="details">User Name <sup style="color:red;">*</sup> </span>
                                 <input type="text" th:readonly="true" th:field = "*{userName}" placeholder="Enter User Name" pattern="[a-zA-Z0-9.]*" title="Only alphabets, numbers, and dots are allowed" required>
                             </div>
 
                             <div class="input-box">
-                                <span class="details">Display Name</span>
+                                <span class="details">Display Name <sup style="color:red;">*</sup> </span>
                                 <input type="text" th:field = "*{displayName}" placeholder="Enter Display Name" required >
                             </div>
 
                             <div class="input-box">
-                                <span class="details">E-Mail</span>
+                                <span class="details">E-Mail <sup style="color:red;">*</sup> </span>
                                 <input type="email" th:field = "*{email}" placeholder="Enter E-Mail" required >
                             </div>
 
                             <div class="input-box">
-                                <span class="details">Phone Number</span>
+                                <span class="details">Phone Number <sup style="color:red;">*</sup> </span>
                                 <input type="tel" th:field = "*{phoneNumber}" placeholder="Enter Phone Number" oninput="validateNumericInput(this)" required>
                             </div>
 
@@ -397,50 +397,63 @@ height: 70%;
                         <h3>Existing roles : <span th:text="${clientUser.concatenatedRoleNames}"></span></h3>
 
                     </div>
-                   <div class="checkbox-container">
-                            <div class="checkbox-wrapper">
-                              <label class="checkbox-label" for="checkbox1">
-                                <div class="custom-checkbox">
-                                  <input type="checkbox" id="checkbox1"  name="roleIds" value="2">
-                                  <div class="checkmark"></div>
-                                </div>
-                                Accounts
-                              </label>
-                            </div>
-                        
-                            <div class="checkbox-wrapper">
-                              <label class="checkbox-label" for="checkbox2">
-                                <div class="custom-checkbox">
-                                  <input type="checkbox" id="checkbox2"  name="roleIds" th:value="3" >
-                                  <div class="checkmark"></div>
-                                </div>
-                                Support
-                              </label>
-                            </div>
-                        
-                            <div class="checkbox-wrapper">
-                              <label class="checkbox-label" for="checkbox3">
-                                <div class="custom-checkbox">
-                                  <input type="checkbox" id="checkbox3"  name="roleIds" th:value="4">
-                                  <div class="checkmark"></div>
-                                </div>
-                                Products
-                              </label>
-                            </div>
-                        
-                            <div class="checkbox-wrapper">
-                              <label class="checkbox-label" for="checkbox4">
-                                <div class="custom-checkbox">
-                                  <input type="checkbox" id="checkbox4"  name="roleIds" th:value="5">
-                                  <div class="checkmark"></div>
-                                </div>
-                                Creatives
-                              </label>
-                            </div>
-                          </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+ <div class="checkbox-container">
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox1">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox1" name="roleIds" value="6" th:checked="${clientUser.roleIds.contains(2)}">
+                    <div class="checkmark"></div>
+                </div>
+                Accounts
+            </label>
+        </div>
+
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox2">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox2" name="roleIds" value="7" th:checked="${clientUser.roleIds.contains(3)}">
+                    <div class="checkmark"></div>
+                </div>
+                Support
+            </label>
+        </div>
+
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox3">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox3" name="roleIds" value="8" th:checked="${clientUser.roleIds.contains(4)}">
+                    <div class="checkmark"></div>
+                </div>
+                Products
+            </label>
+        </div>
+
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox4">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox4" name="roleIds" value="9" th:checked="${clientUser.roleIds.contains(5)}">
+                    <div class="checkmark"></div>
+                </div>
+                Creatives
+            </label>
+        </div>
+    </div>
+       
+       
+       
+       
+       
                       <div class="button">
                         <input type="submit" value="Update">
-                        <li><a th:href="@{http://localhost:8086/faboClientUsers}">Close</a></li>
+                        <li><a th:href="@{/faboClientUsers}">Close</a></li>
                     </div>
                 </form>
             </div>
@@ -449,39 +462,46 @@ height: 70%;
 
         
            
+		
 
 
-        
-    </div>
-</body>
+
+<input type="hidden" id="roleIds" th:value="${clientUser.roleIds}" />
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
-    function handleCheckboxChange(checkbox) {
-        const selectedRoleIds = []; // Initialize an array to store selected roleIds
+document.addEventListener('DOMContentLoaded', function() {
+    // Get roleIds as a string
+    var roleIdsString = $('#roleIds').val();
 
-        // Find all checkboxes with the name 'roleIds' and check if they're checked
-        const checkboxes = document.querySelectorAll('input[name="roleIds"]');
-        checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                selectedRoleIds.push(checkbox.value); // Add checked roleIds to the array
-            }
-        });
+    // Parse the string as JSON to get the array
+    var roleIds = roleIdsString ? JSON.parse(roleIdsString) : [];
 
-        // Now 'selectedRoleIds' contains the IDs of checked checkboxes
-        // You can use this array to perform further operations or updates
-        console.log(selectedRoleIds); // Example: Output selected role IDs to the console
+    // Ensure that roleIds is an array
+    if (!Array.isArray(roleIds)) {
+        roleIds = [];
     }
 
-    // Attach the 'handleCheckboxChange' function to checkbox change events
-    const checkboxes = document.querySelectorAll('input[name="roleIds"]');
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('change', function() {
-            handleCheckboxChange(this); // Pass the checkbox triggering the change
-        });
+    // Iterate through each checkbox and check it if the corresponding roleId is present
+    $(".checkbox-label input[type='checkbox']").each(function () {
+        var checkboxValue = parseInt($(this).val());
+
+        // Check if the checkbox value is in the roleIds array
+        if (roleIds.indexOf(checkboxValue) !== -1) {
+            $(this).prop("checked", true);
+        }
     });
+});
+
 </script>
 
 
 
+		
+
+
+</body>
 </html>
 
         

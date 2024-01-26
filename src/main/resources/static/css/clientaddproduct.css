@@ -11,7 +11,7 @@ html {
     height: 100vh;
     display: flex;
     flex-direction: row;  
-    background:linear-gradient(to top, rgba(0,0,0,0.4)20%,rgba(0,0,0,0.4)20%), url(Desk-bg.jpg);
+    background:linear-gradient(to top, rgba(0,0,0,0.4)20%,rgba(0,0,0,0.4)20%), url("/images/Desk-bg.jpg");
     background-position: center;
     background-size: 100% 100%;
     box-sizing: border-box;
@@ -29,8 +29,6 @@ html {
     justify-content: space-between;
    
 }
-
-
 .logo-section {
     width: 100%;
     height: 20%;
@@ -102,8 +100,8 @@ button li a{
    
 }
 .card{
-    width: 80%;
-    height: 80%;
+    width: 90%;
+    height: 97%;
     background: linear-gradient(135deg, #ef4d79, #3d1b63);
     display: flex;
     justify-content: center;
@@ -113,7 +111,7 @@ button li a{
  
 }
 .subsec{
-    width: 90%;
+    width: 95%;
     height: 90%;
     background-color: #ccc;
     border: 2px solid #fff;
@@ -151,34 +149,35 @@ button li a{
     height: 95%;
     display: flex;
     flex-direction: column;
-    
 }
 
 .form form .user-detail {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin: 20px 20px 0;
+    /* margin: 20px 20px 0; */
     color: #3d1b63;
     font-size: large;
 }
 
 form .user-detail .input-box  {
-    margin-bottom: 15px;
-    width: calc(100% / 3 - 40px);
+   
+    width: calc(100% / 3 - 20px);
 }
 
 
 .user-detail .input-box input {
     height: 35px;
-    width: 100%;
+    width: 90%;
     outline: none;
     border-radius: 5px;
     border: 1px solid #3d1b63;
     font-size: 14px;
     padding-left: 10px;
+    padding-top: -10px;
     border-bottom-width: 2px;
     transition: all .3s ease;
+    margin-left: 10px;
 }
 
  .input-box .details {
@@ -194,19 +193,20 @@ form .user-detail .input-box  {
     font-weight: 500;
     display: block;
     margin-bottom: 5px;
-    margin-top: 33px;
+    margin-top: 34px;
     margin-left: 20px;
 }
 select {
     padding: 8px;
     width: 100%;
     font-size: 16px;
-    margin-left: 10px;
     outline: none;
     border: 2px solid #ef4d79;
     border-radius: 5px;
     background-color: #fff;
     color: #ef4d79;
+    margin-left: 8px;
+    
    
 
 }
@@ -231,7 +231,9 @@ select option {
     justify-content: right;
     width: 100%;
     height: 45px;
-   margin: 3% 0;
+    margin-top:6px;
+    /* margin-top: 3%; */
+   
   
   
 }
@@ -262,16 +264,23 @@ select option {
     width: 20%;
     height: 100%;
     margin:0 2%;
+    /* margin-top:-10px; */
 }
 
 .close-button li{
     display: flex;
+    width: 100%;
+    height: 100%;
 }
 
 .close-button li a{
     text-decoration: none;
     color: white;
     width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .close-button button{
        width: 100%;
@@ -298,9 +307,10 @@ select option {
        background: linear-gradient(-135deg, #3d1b63, #ef4d79);
 }
 
+
 .user-detail .input-box textarea {
-    height: 35px; /* Set a fixed height for the textarea */
-    width: 100%;
+    height: 80px; /* Set a fixed height for the textarea */
+    width: 90%;
     outline: none;
     border-radius: 5px;
     border: 1px solid #3d1b63;
@@ -324,6 +334,27 @@ select option {
     padding-top: 8px;
    
 }
+#fileNameDisplay
+{
+    width:95%;
+    height:40px;
+    /* border:2px solid #ef4d79; */
+    position: relative;
+    left:0px;
+    top:5px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+ 
+}
+/* 
+#input-box1{
+    margin-left: 100px;
+}
+
+#storephone{
+    margin-right: 100px;
+} */
 
 
 

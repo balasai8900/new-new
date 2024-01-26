@@ -1,10 +1,12 @@
 package com.pack.fabo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pack.fabo.entity.AddSupportAdmin;
 import com.pack.fabo.entity.Invoice;
 import com.pack.fabo.repository.InvoiceRepository;
 import com.pack.fabo.service.InvoiceService;
@@ -24,9 +26,15 @@ public class InvoiceServiceImpl implements InvoiceService{
 	        return invoiceRepository.findAll();
 	    }
 
-	    @Override
-	    public Invoice saveInvoice(Invoice invoice) {
-	        return invoiceRepository.save(invoice);
+	 public Invoice saveInvoice(Invoice invoice) {
+	        // Save the invoice to generate the auto-incremented numeric part
+	        Invoice savedInvoice = invoiceRepository.save(invoice);
+
+	        // Update the formatted invoice number based on the saved invoice ID
+	        savedInvoice.setFormattedInvoiceNumber(savedInvoice.getId());
+
+	        // Save the invoice again to update the invoice number
+	        return invoiceRepository.save(savedInvoice);
 	    }
 
 		@Override
@@ -38,14 +46,19 @@ public class InvoiceServiceImpl implements InvoiceService{
 		public Invoice updateInvoice(Invoice invoice) {
 			return invoiceRepository.save(invoice);
 		}
-
-		@Override
-		public void deleteInvoiceById(Long id) {
-			invoiceRepository.deleteById(id);
-			
-		}
-
 		
+		public void deleteInvoiceById(Long id) {
+	        Optional<Invoice> invoiceOptional = invoiceRepository.findById(id);
+
+	        if (invoiceOptional.isPresent()) {
+	            Invoice invoice = invoiceOptional.get();
+	            invoice.setActiveStatus(false); // Marking as inactive
+
+	            invoiceRepository.save(invoice);
+	        } else {
+	            throw new IllegalArgumentException("Invoice ID not found: " + id);
+	        }
+	    }
 		
 	   
 

@@ -15,7 +15,11 @@ function toggleSubMenu(submenuId) {
     if (popup) {
         popup.style.display = "block";
     }
+     $('#addUserPopup').show();
 }
+ $(document).ready(function() {
+        openPopup();
+    });
 
 function closePopup() {
     isEditing = false;

@@ -35,9 +35,9 @@ public class ClientController {
 	}
 	
 	 @Autowired
-	    private JavaMailSender javaMailSender;
+	 private JavaMailSender javaMailSender;
 
-	@RequestMapping("/faboAdd")
+	@GetMapping("/faboAdd")
 	public String faboPage(Model model) {
 		Client client = new Client();
 		model.addAttribute("client",client);
@@ -45,47 +45,47 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = {"/faboclients", "/faboclients"}, method = {RequestMethod.GET, RequestMethod.POST})
-	 public String searchAndFilterClients(@RequestParam(value = "search", required = false) String search,
+	public String searchAndFilterClients(@RequestParam(value = "search", required = false) String search,
 	                                      @RequestParam(value = "state", required = false) String state,
 	                                      @RequestParam(value = "city", required = false) String city,
 	                                      Model model) {
 
-	     // Filter
-	     List<String> states = clientRepository.findDistinctStates();
-	     List<String> cities = clientRepository.findDistinctCities();
-	     model.addAttribute("states", states);
-	     model.addAttribute("cities", cities);
+	    model.addAttribute("selectedState", state);
+	    model.addAttribute("selectedCity", city);
 
-	     List<Client> clients;
+	    // Filter
+	    List<String> states = clientRepository.findDistinctStates();
+	    List<String> cities = clientRepository.findDistinctCities();
+	    model.addAttribute("states", states);
+	    model.addAttribute("cities", cities);
 
-	     if (search != null && !search.isEmpty()) {
-	         // Search
-	         clients = clientRepository.findBySearchTerm(search);
-	     } else if (state != null && city != null) {
-	         // Filter by state and city
-	         clients = clientRepository.findByStateAndCity(state, city);
-	     } else if (state != null && !state.isEmpty()) {
-	         // Filter by state
-	         clients = clientRepository.findByState(state);
-	     } else if (city != null && !city.isEmpty()) {
-	         // Filter by city
-	         clients = clientRepository.findByCity(city);
-	     } else {
-	         // No search or filter, return all clients
-	         clients = clientRepository.findAll();
-	     }
-	     
-	 
+	    List<Client> clients;
 
-	     model.addAttribute("clients", clients);
-	     return "clientslist";
-	 }
+	    if ((state == null || state.equalsIgnoreCase("All")) && (city == null || city.equalsIgnoreCase("All"))) {
+	        // No specific state or city selected, return all active clients
+	        clients = clientRepository.findByActiveStatusTrue();
+	    } else if (search != null && !search.isEmpty()) {
+	        // Search
+	        clients = clientRepository.findBySearchTerm(search, state);
+	    } else if (state != null && !state.isEmpty() && !state.equalsIgnoreCase("All") && city != null && !city.isEmpty() && !city.equalsIgnoreCase("All")) {
+	        // Filter by both state and city
+	        clients = clientRepository.findByStateAndCity(state, city);
+	    } else if (state != null && !state.isEmpty() && !state.equalsIgnoreCase("All")) {
+	        // Filter by state
+	        clients = clientRepository.findByState(state);
+	    } else if (city != null && !city.isEmpty() && !city.equalsIgnoreCase("All")) {
+	        // Filter by city
+	        clients = clientRepository.findByCity(city);
+	    } else {
+	        // Default case, return all active clients
+	        clients = clientRepository.findByActiveStatusTrue();
+	    }
 
-	@PostMapping("/fabopage")
-	public String saveClients(@ModelAttribute("client") Client client) {
-		clientService.saveClient(client);
-		return "redirect:/faboclients";
+	    model.addAttribute("clients", clients);
+	    return "clientslist";
 	}
+
+
 	
 	@PostMapping("/clients")
 	public String saveClient(@ModelAttribute("client") Client client) {
@@ -118,9 +118,9 @@ public class ClientController {
 	        // Construct email content with user details
 	        String emailContent = "Your information has been ";
 	        emailContent += (isUpdate ? "updated" : "submitted") + " successfully. Below are the details you provided:\n\n";
-	        emailContent += "Store Name: " + client.getStorename() + "\n";
-	        emailContent += "Store Code: " + client.getStorecode() + "\n";
-	        emailContent += "Owner Name: " + client.getOwnername() + "\n";
+	        emailContent += "Store Name: " + client.getStoreName() + "\n";
+	        emailContent += "Store Code: " + client.getStoreCode() + "\n";
+	        emailContent += "Owner Name: " + client.getOwnerName() + "\n";
 	        emailContent += "State: " + client.getState() + "\n";
 	        emailContent += "City: " + client.getCity() + "\n";
 	        emailContent += "Full Address: " + client.getFullAddress() + "\n";
@@ -151,24 +151,35 @@ public class ClientController {
 	}
 
 	@PostMapping("clients/{Id}")
-	public String updateClient(@PathVariable Long Id,String email,
-	        @ModelAttribute("client") Client client, Model model) {
+	public String updateClient(@PathVariable Long Id,
+	                            @ModelAttribute("client") Client updatedClient, 
+	                            Model model) {
+	    // Retrieve the existing client from the database
 	    Client existingClient = clientService.getClientById(Id);
-	    if (existingClient != null) {
-	        existingClient.setStorecode(client.getStorecode());
-	        existingClient.setStorename(client.getStorename());
-	        existingClient.setEmail(client.getEmail());
-	        existingClient.setPrimaryNumber(client.getPrimaryNumber());
-	        existingClient.setSecondaryNumber(client.getSecondaryNumber());
-	        existingClient.setState(client.getState());
-	        existingClient.setCity(client.getCity());
-	        existingClient.setFullAddress(client.getFullAddress());
 
+	    if (existingClient != null) {
+	        // Update the properties of the existing client
+	        existingClient.setStoreCode(updatedClient.getStoreCode());
+	        existingClient.setStoreName(updatedClient.getStoreName());
+	        existingClient.setOwnerName(updatedClient.getOwnerName());
+	        existingClient.setEmail(updatedClient.getEmail());
+	        existingClient.setOwnerContact(updatedClient.getOwnerContact());
+	        existingClient.setStoreContact(updatedClient.getStoreContact());
+	        existingClient.setGstNo(updatedClient.getGstNo());
+	        existingClient.setState(updatedClient.getState());
+	        existingClient.setCity(updatedClient.getCity());
+	        existingClient.setFullAddress(updatedClient.getFullAddress());
+
+	        // Save the updated client
 	        clientService.updateClient(existingClient);
-	        sendEmailNotification(email, existingClient, true); // Pass isUpdate as true
+
+	        // Perform other actions as needed
+	        sendEmailNotification(existingClient.getEmail(), existingClient, true);
 	    }
+
 	    return "redirect:/faboclients";
 	}
+
 	
 	@GetMapping("/client/{Id}")
 	public String deleteClient(@PathVariable Long Id) {

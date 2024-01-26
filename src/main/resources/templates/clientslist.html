@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" th:href="@{css/clientslist.css}">
+    <link rel="stylesheet" th:href="@{/css/clientslist.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>Document</title>
 </head>
-<body>
+<body> 
     <div class="main-page">
         <!-- Side bar -->
         <div class="sidebar">
             <div class="logo-section">
-                <img th:src="@{/images/fabo.logo.png}"  alt="Your Logo">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
             </div>
             <div class="sbbuttons">
                 <button id="button1" onclick="toggleSubMenu('submenu1')">Client<br>Management</button>
@@ -40,40 +41,39 @@
                 <div class="title">
                     <h2>Clients List</h2>
                     <div class="close-button">
-                        <li><a href=home>X</a></li>
+                         <li><a th:href="@{/home}">X</a></li>
                     </div>
                 </div>
                 <div class="bar">
                     <div class="filters">
-                 <form id="filterForm">
-				    <div class="fil-1">
-				        <input type="text" placeholder="Enter State" list="state" name="state">
-				        <datalist id="state">
-				            <option value="" disabled selected>select state</option>
-				            <option th:each="state : ${states}" th:value="${state}" th:text="${state}"></option>
-				        </datalist>
-				    </div>
-				</form>
-				
-				<form id="filterForms">
-				    <div class="fil-2">
-				        <input type="text" placeholder="Enter City" list="city" name="city" >
-				        <datalist id="city">
-				            <option value="" disabled selected>select city</option>
-				            <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"></option>
-				        </datalist>
-				    </div>
-				</form>
+						<div class="fil-1">
+						    <label for="stateDropdown">Select State:</label>
+						    <input type="search" list="states" placeholder="Select state" id="stateSearch" name="state" th:value="${selectedState}">
+						    <datalist id="states">
+						        <option value="" disabled>Select State</option>
+						        <option th:each="stateItem : ${states}" th:value="${stateItem}" th:text="${stateItem}"></option>
+						    </datalist>
+						</div>
+						
+						<div class="fil-2">
+						    <label for="cityDropdown">Select a City:</label>
+						    <input type="search" list="cities" placeholder="Select City" id="citysearch" name="city" th:value="${selectedCity}">
+						    <datalist id="cities">
+						        <option value="" disabled>Select City</option>
+						        <option th:each="cityItem : ${cities}" th:value="${cityItem}" th:text="${cityItem}"></option>
+						    </datalist>
+						</div>
+
+                        
                         <div class="search-container">
-                            <div class="search-icon">
-                       
+                            <div class="search-icon" id="searchIcon">
+                              <i class="fas fa-search"></i>
                             </div>
-                            <form th:action="@{faboclients}" method="post">
-                            <input type="text" name="search" id="searchInput" class="search-bar" placeholder="Search">
-                            
-                             </form>
+                            <input type="search" class="search-bar" id="searchInput" placeholder="Search">
+                            <ul id="searchResults"></ul>
                         </div>
                     </div>
+                    
                     
                     
                 </div>
@@ -93,26 +93,24 @@
                         <tbody id="clientsTableBody">
                           
                             <tr th:each = "client: ${clients}">
-                                <td th:text = "${client.storecode}"></td>
-					<td th:text = "${client.storename}"></td>
-					<td th:text = "${client.state}"></td>
-					<td th:text = "${client.city}"></td>
-					<td th:text = "${client.primaryNumber}"></td>
-					<td>
-	                     <li><a th:href = "@{/clientview/{Id}(Id=${client.Id})}">👁️</a></li>
-                         <li><a th:href = "@{/clients/edit/{Id}(Id=${client.Id})}">✏️</a></li>
-	                    
-	                    <span class="action-icon delete-icon" ><a th:href = "@{/client/{Id}(Id=${client.Id})}" onclick="return confirmDelete('${client.Id}')">🗑️</a></span> 
-	                </td>
-                            </tr>
-                        
-
+                                 <td th:text = "${client.storeCode}"></td>
+								<td th:text = "${client.storeName}"></td>
+								<td th:text = "${client.state}"></td>
+								<td th:text = "${client.city}"></td>
+								<td th:text = "${client.ownerContact}"></td>
+                                <td class="action-menu">
+                                    <i class="fa-solid fa-bars"></i>
+                                    <div class="action-menu-content">
+                                      <a th:href = "@{/clientview/{Id}(Id=${client.Id})}">View</a>
+                                      <a th:href = "@{/clients/edit/{Id}(Id=${client.Id})}">Edit</a>
+                                      <a th:href = "@{/client/{Id}(Id=${client.Id})}" onclick="return confirmDelete('${client.Id}')">Delete</a>
+                                    </div>
+                                </td>
+                                </tr>
                         </tbody>
                     </table>
                 </div>
-
-            </div>
-
+              </div>
         </div>
 
         <div class="popup" id="deleteConfirmationPopup">
@@ -129,65 +127,78 @@
         </div>
         </div>
     </div>
+    
+    	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script>
-        function openPopup(popupId) {
-            var popup = document.getElementById(popupId);
-            if (popup) {
-                popup.style.display = "block";
-            }
-        }
-    
-        function showDeleteConfirmationPopup() {
-            var deleteConfirmationPopup = document.getElementById("deleteConfirmationPopup");
-            deleteConfirmationPopup.style.display = "block";
-            document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-        }
-    
-        function cancelDelete() {
-            closeDeleteConfirmationPopup();
-        }
-    
-        function closeDeleteConfirmationPopup() {
-            var deleteConfirmationPopup = document.getElementById("deleteConfirmationPopup");
-            deleteConfirmationPopup.style.display = "none";
-            document.body.style.backgroundColor = "";
-        }
-    
-        var dropdown = document.getElementById("stateDropdown");
-        dropdown.addEventListener("change", function () {
-            var selectedState = dropdown.options[dropdown.selectedIndex].value;
-            console.log("Selected State: " + selectedState);
-            populateCities(); // Add this line to update cities dropdown
-            // You can perform further actions with the selected state
-        });
-    
-    </script>
-    
 <script>
-    const stateInputField = document.querySelector('#filterForm input[type="text"]');
-    const cityInputField = document.querySelector('#filterForms input[type="text"]');
+    $(document).ready(function () {
+        // Function to filter the table based on the selected state
+        function filterState() {
+            var selectedState = $('#stateSearch').val().toLowerCase();
 
-    stateInputField.addEventListener('change', function() {
-        filterForm.submit(); // Submit form when state input changes
-    });
+            console.log("Selected State:", selectedState);
 
-    cityInputField.addEventListener('change', function() {
-        filterForms.submit(); // Submit form when city input changes
+            $('#clientsTableBody tr').each(function () {
+                var state = $(this).find('td:nth-child(3)').text().toLowerCase();
+                console.log("Row State:", state);
+                $(this).toggle(state.indexOf(selectedState) > -1);
+            });
+        }
+
+        // Function to filter the table based on the selected city
+        function filterCity() {
+            var selectedCity = $('#citysearch').val().toLowerCase();
+
+            console.log("Selected City:", selectedCity);
+
+            $('#clientsTableBody tr').each(function () {
+                var city = $(this).find('td:nth-child(4)').text().toLowerCase();
+                console.log("Row City:", city);
+                $(this).toggle(city.indexOf(selectedCity) > -1);
+            });
+        }
+
+        // Trigger the filter when the state search input changes
+        $('#stateSearch').on('input', function () {
+            filterState();
+        });
+
+        // Trigger the filter when the city search input changes
+        $('#citysearch').on('input', function () {
+            filterCity();
+        });
     });
 </script>
-     
-    <script>
-    
-    function confirmDelete(email) {
-        var confirmation = confirm("Are you sure you want to delete this admin?");
-        if (confirmation) {
-            window.location.href = `/client/${Id}`;
-        } else {
-            alert("Deletion canceled.");
-            return false;
-        }
+
+<script>
+$(document).ready(function () {
+    // Attach a keyup event to the search input
+    $('#searchInput').keyup(function () {
+        // Get the value from the search input
+        var searchTerm = $(this).val().toLowerCase();
+
+        // Filter the table rows based on the search term
+        $('#clientsTableBody tr').filter(function () {
+            var rowText = $(this).text().toLowerCase();
+            $(this).toggle(rowText.indexOf(searchTerm) > -1);
+        });
+    });
+});
+</script>
+
+<script>
+//Function for delete confirmation
+function confirmDelete(clientId) {
+    var confirmation = confirm("Are you sure you want to delete this Client?");
+    if (confirmation) {
+        window.location.href = '/client/' + clientId + '/delete';
+
+    } else {
+        alert("Deletion canceled.");
+        return false;
     }
-    </script>
+}
+</script>
+    
 </body>
 </html>

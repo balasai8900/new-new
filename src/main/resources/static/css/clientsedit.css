@@ -11,7 +11,7 @@ html {
     height: 100vh;
     display: flex;
     flex-direction: row;  
-    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url(Desk-bg.jpg);
+    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url("/images/Desk-bg.jpg");
     background-position: center;
     background-size: 100% 100%;
     box-sizing: border-box;
@@ -241,6 +241,38 @@ form .button li a {
     background: linear-gradient(135deg, #3d1b63, #ef4d79);
     
 }
+.user-detail .input-box textarea {
+    height:90px; /* Set a fixed height for the textarea */
+    width:300px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #3d1b63;
+    padding-left: 15px;
+    font-size: 14px;
+    font-weight: 0;
+    border-bottom-width: 2px;
+    transition: all .3s ease;
+    overflow-y: auto; /* Add vertical scroll if content exceeds the fixed height */
+    resize: none; /* Disable resizing */
+    
+}
+
+.user-detail .input-box textarea:focus {
+    border-color: #ef4d79;
+}
+
+.user-detail .input-box textarea::placeholder {
+    font-size: large;
+    text-decoration: none;
+    padding-top: 8px;
+   
+}
+
+.user-detail .input-box input:focus,
+.user-detail .input-box input:valid {
+    border-color: #ef4d79;
+}
+
 
 
 

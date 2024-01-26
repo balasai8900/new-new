@@ -11,7 +11,7 @@ html {
     height: 100vh;
     display: flex;
     flex-direction: row;  
-    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url(Desk-bg.jpg);
+    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url("/images/Desk-bg.jpg");
     background-position: center;
     background-size: 100% 100%;
     box-sizing: border-box;

@@ -58,7 +58,7 @@ public ClientUser saveUser(ClientUser ClientUser) {
 
 @Override
 public ClientUser getClientUserById(String id) {
-	return clientUserRepository.findById(id).get() ;
+	return clientUserRepository.findById(id).orElse(null);
 }
 
 @Override
@@ -104,6 +104,7 @@ public void addClientUserAndRoles(ClientUser clientUser, List<Long> roleIds) {
 
 @Transactional
 public void addClientUserAndRoles(ClientUser clientUser, List<Long> roleIds) {
+    // Find the existing user by email
     User existingUser = userRepository.findByUserName(clientUser.getEmail());
 
     if (existingUser != null) {
@@ -163,6 +164,25 @@ public void updateConcatenatedRolesByEmail(String email, String concatenatedRole
 
 public boolean isUsernameDuplicate(String username) {
     return clientUserRepository.existsByUserName(username);
+}
+
+@Override
+public Optional<ClientUser> getClientUserByEmail(String email) {
+	// TODO Auto-generated method stub
+	return clientUserRepository.findByEmail(email);
+}
+
+void deleteClientUserByEmail(String email) {
+    Optional<ClientUser> clientUserOptional = clientUserRepository.findByEmail(email);
+
+    if (clientUserOptional.isPresent()) {
+        ClientUser clientUser = clientUserOptional.get();
+        clientUser.setActiveStatus(false); // Marking as inactive
+
+        clientUserRepository.save(clientUser);
+    } else {
+        throw new IllegalArgumentException("ClientUser ID not found: " + email);
+    }
 }
 
 }

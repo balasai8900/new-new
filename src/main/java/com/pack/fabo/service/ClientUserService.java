@@ -1,6 +1,7 @@
 package com.pack.fabo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.pack.fabo.entity.ClientUser;
 
@@ -21,5 +22,7 @@ public interface ClientUserService {
 	void updateConcatenatedRolesByEmail(String email, String concatenatedRoleNames);
 
 	boolean isUsernameDuplicate(String username);
+
+	Optional<ClientUser> getClientUserByEmail(String email);
 
 }

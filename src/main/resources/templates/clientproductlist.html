@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/clientproductlist.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+      
+
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Product Request List</h2>
+                    <div class="close-button">
+                        <li><a href=home>X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="bar">
+                        <div class="filters">
+                            
+    
+                            <div class="calender">
+                                <label for="fromDate">From Date:</label>
+                                <input type="date" id="fromDate">
+                            </div>
+                            <div class="calender">
+                                <label for="toDate">To Date:</label>
+                                <input type="date" id="toDate">
+                            </div>
+    
+                            <div class="fil-3">
+                                <label for="productdropdown">Select Product Type:</label>
+                                <input type="search" list="productdropdown" placeholder="Select Request " id="invoiceSearch">
+                                <datalist id="productdropdown">
+                                    <option value="Chemicals">Chemicals</option>
+                                    <option value="Packing Covers">Packing Covers</option>
+                                    
+                                    <option value="Collar Cuffs">Collar Cuffs</option>
+                                    <option value="Pins">Pins</option>
+                                </datalist>
+                            </div>
+    
+                           
+                            
+                            <div class="fil-4">
+                                <label for="statusDropdown">Select Status:</label>
+                                <input type="search" list="statusDropdown" placeholder="Select Status " id="satusSearch">
+                                <datalist id="statusDropdown">
+                                <!-- <select id="statusDropdown" required> -->
+                                    <option value="New">New</option>
+                                    <option value="Closed">Closed</option>
+                                    <!-- Add other status options as needed -->
+                                <!-- </select> -->
+                                </datalist>
+                            </div>
+    
+    
+                            <div class="search-container">
+                                <div class="search-icon">
+                                  <i class="fas fa-search"></i>
+                                </div>
+                                <input type="search" class="search-bar" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                
+                                <th>Date</th>
+                                 <th>Store Name</th>
+                                <th>Product Request Type</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                          
+                            <tr th:each="clientProduct : ${clientProducts}"> 
+                             <td th:text="${clientProduct.Date}"></td>  
+                             <td th:text="${clientProduct.storeName}"></td>   
+					<td th:text = "${clientProduct.productRequestType}"></td>
+					<td th:text="${clientProduct.issueSubject}"></td>
+                     <td th:text="${clientProduct.status}"></td>   
+                                <td>
+                                    <div class="action-menu">
+                                        <i class="fas fa-bars" onclick="toggleActionMenu(this)"></i>
+                                        <div class="dropdown-menu">
+                                            
+                                            <a  th:href = "@{/viewproductclientproduct/{id}(id=${clientProduct.id})}"  style="cursor: pointer;">Add Comments</a>
+                                           
+                                            <a th:href = "@{/closeproduct/{id}(id=${clientProduct.id})}" >Close Product Request</a>
+                                           
+                                             <a th:href = "@{/clientproductDetailsproduct/{id}(id=${clientProduct.id})}">View Detailed Info</a>
+                                           
+                                        </div>
+                                    </div>
+                                </td>
+                               
+                                </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    <script>
+      
+    
+       
+         
+        function openCommentPopup() {
+            var commentPopup = document.getElementById("commentPopup");
+            var overlay = document.getElementById("overlay");
+            commentPopup.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeCommentPopup() {
+            var commentPopup = document.getElementById("commentPopup");
+            var overlay = document.getElementById("overlay");
+            commentPopup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function sendComment() {
+            // Your logic to send the comment
+            closeCommentPopup();
+        }
+
+
+
+        function openCommentPopup2() {
+            var commentPopup = document.getElementById("commentPopup2");
+            var overlay = document.getElementById("overlay2");
+            commentPopup.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeCommentPopup2() {
+            var commentPopup = document.getElementById("commentPopup2");
+            var overlay = document.getElementById("overlay2");
+            commentPopup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function sendComment() {
+            // Your logic to send the comment
+            closeCommentPopup();
+        }
+    </script>
+</body>
+</html>

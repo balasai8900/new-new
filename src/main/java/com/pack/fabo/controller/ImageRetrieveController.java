@@ -27,7 +27,6 @@ public class ImageRetrieveController {
     }
 */
     
-    @Autowired
     public ImageRetrieveController(ImageService imageService) {
         this.imageService = imageService;
     }

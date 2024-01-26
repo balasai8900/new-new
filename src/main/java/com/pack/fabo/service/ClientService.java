@@ -18,9 +18,5 @@ public interface ClientService {
 
 	Optional<Client> getClientByEmail(String email);
 
-
-	
-
-	
-	
+	Client getClientByStoreCode(String storeCode);
 }

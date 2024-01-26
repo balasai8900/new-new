@@ -29,4 +29,6 @@ public interface AdminRepository extends JpaRepository<Admin, String>{
 
 	List<Admin> findByConcatenatedRoleNamesContaining(String accesses);
 
+	List<Admin> findByActiveStatusTrue();
+
 }

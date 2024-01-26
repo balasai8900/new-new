@@ -59,12 +59,6 @@ public class AdminServiceImpl implements AdminService{
 		return adminRepository.save(admin);
 	}
 
-	@Override
-	public void deleteAdminById(String email) {
-		adminRepository.deleteById(email);	
-		
-	}
-
 	@Transactional
 	public void addAdminAndRoles(Admin admin, List<Long> roleIds) {
 	    User existingUser = userRepository.findByUserName(admin.getEmail());
@@ -110,6 +104,20 @@ public class AdminServiceImpl implements AdminService{
 
 	    // Delete clientUsers by email
 	    adminRepository.deleteAllByEmail(email);
+	}
+	
+	@Override
+	public void deleteAdminById(String email) {
+		Optional<Admin> adminOptional = adminRepository.findByEmail(email);
+
+        if (adminOptional.isPresent()) {
+            Admin admin = adminOptional.get();
+            admin.setActiveStatus(false); // Marking as inactive
+
+            adminRepository.save(admin);
+        } else {
+            throw new IllegalArgumentException("Admin ID not found: " + email);
+        }
 	}
 
 	@Override

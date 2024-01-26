@@ -3,267 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/clientsedit.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Document</title>
-    <style>
-    body,
-html {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-}
-
-.main-page {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;  
-    background:linear-gradient(to top, rgba(0,0,0,0.2),rgba(0,0,0,0.2)), url("/images/Desk-bg.jpg");
-    background-position: center;
-    background-size: 100% 100%;
-    box-sizing: border-box;
-}
-
-.sidebar {
-    width: 20%;
-    height: auto;
-    color: #fff;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-   
-}
-
-
-.logo-section {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    align-items: top;
-    margin-bottom: 10%;
-    /* background-color: #ddd; */
-
-}
-
-.logo-section img {
-    width: 60%;
-    height: 80%;
-}
-
-.sbbuttons {
-    width: 100%;
-    height: 80%;
-    /* background: linear-gradient(180deg ,#ef4d7800 0%,#3d1b63 70%,#3d1b63 100%); */
-    margin-top: 20%;
-}
-
-
- .sbbuttons > button {
-    width: 90%;
-    padding: 10px;
-    margin: 5% 0;
-    margin-bottom: 15px;
-    background: linear-gradient(135deg, #ef4d79, #3d1b63);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-size: large;
-    border: 2px solid white;
-    border-radius: 20px;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
- }
-
-.sbbuttons>button:hover {
-    background: linear-gradient(-135deg, #ef4d79, #3d1b63);
-}
-
-
-.submenu {
-    list-style-type: none;
-    padding: 0;
-    display: none;
-    margin: 0;
-}
-
-.submenu li {
-    padding: 8px;
-    background: linear-gradient(135deg, #ef4d79, #3d1b63);
-    margin-bottom: 15px;
-    cursor: pointer;
-    width: 60%;
-    margin-left: 12%;
-    text-align: center;
-    border: 2px solid white;
-    border-radius: 20px;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-}
-
-
-
-.submenu li:hover {
-    background: linear-gradient(-135deg, #ef4d79, #3d1b63);
-}
-
-.submenu.show {
-    display: block;
-}
-.card{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: 100%;
-
-}
-
-
-.wrapper {
-    width: 80%;
-    height: 70%;
-    background: #ddd;
-    padding-top: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 20px;
-    border-radius: 5px;
-    border: 2px solid #ef4d79;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
-}
-
-.wrapper>.title {
-    font-size: 25px;
-    font-weight: 500;
-    position: relative;
-    color: #3d1b63;
-}
-
-.wrapper .title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    top: 30px;
-    height: 3px;
-    width: 100%;
-    background: linear-gradient(135deg, #3d1b63, #ef4d79);
-}
-
-
-.wrapper form .user-detail {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 40px 20px 0;
-    color: #3d1b63;
-    font-size: large;
-}
-
-form .user-detail .input-box {
-    margin-bottom: 15px;
-    width: calc(100% / 3 - 40px);
-}
-
-.user-detail .input-box input {
-    height: 35px;
-    width: 100%;
-    outline: none;
-    border-radius: 5px;
-    border: 1px solid #3d1b63;
-    padding-left: 15px;
-    font-size: 14px;
-    border-bottom-width: 2px;
-    transition: all .3s ease;
-}
-
-.user-detail .input-box input:focus,
-.user-detail .input-box input:valid {
-    border-color: #ef4d79;
-}
-
-
-.user-detail .input-box .details {
-    font-weight: 500;
-    display: block;
-    margin-bottom: 15px;
-    margin-left: 20px;
-}
-
-form .button {
-     display: flex;
-     flex-direction: row;
-     justify-content: right;
-     width: 100%;
-     height: 45px;
-    
-}
-
-form .button input {
-    display: flex;
-    justify-content: center;
-    height: 100%;
-    width: 20%;
-    color: #fff;
-    outline: none;
-    border: none;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 30px;
-    letter-spacing: 1px;
-    background: linear-gradient(135deg, #3d1b63, #ef4d79);
-    border: 2px solid white;
-    margin: 0 2%;
-    
-}
-
-.button li{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 20%;
-   
-}
-
-
-
-form .button li a {
-   text-decoration: none;
-   font-size: 18px;
-    font-weight: 500;
-    border: 2px solid white;
-    color: white;
-    height: 90%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 30px;
-    letter-spacing: 1px;
-    background: linear-gradient(135deg, #3d1b63, #ef4d79);
-    
-}
-
-
-
-    
-
-form .button li a:hover {
- background: linear-gradient(-135deg, #3d1b63, #ef4d79);
-}
-
-
-
-form .button input:hover {
-    background: linear-gradient(-135deg, #3d1b63, #ef4d79);
-}
-    </style>
 </head>
 <body>
     <div class="main-page">
@@ -295,77 +37,99 @@ form .button input:hover {
 
         <div class="card">
             <div class="wrapper">
-                <div class="title">Edit Clients</div>
- 			<form th:action="@{/clients}" th:object="${client}" method="POST">                    <div class="user-detail">
-                   <div class="input-box">
-                                <span class="details">Store Name</span>
-                                <input type="text" th:field = "*{storename}" th:readonly="true" placeholder="Enter Store Name" required >
+                <div class="title">Edit Client</div>
+           	      <form th:action="@{/clients/{Id} (Id=${client.Id})}" th:object="${client}" method="POST">
+
+                    <div class="user-detail">
+                        <div class="input-box">
+						    <span class="details">Store Name <sup style="color:red;">*</sup> </span>
+						    <input type="text" th:field="*{storeName}" id="storeNameInput" th:readonly="true" placeholder="Enter Store Name" required>
+						</div>
+
+                        <div class="input-box">
+                            <span class="details">Store Code <sup style="color:red;">*</sup> </span>
+                            <input type="text" th:field = "*{storeCode}" th:readonly="true" placeholder="Enter Store Code" required >
+                        </div>
+                        
+                        <div class="input-box">
+                            <span class="details">Owner Name <sup style="color:red;">*</sup> </span>
+                            <input type="text" th:field="*{ownerName}" placeholder="Enter Owner Name" required>
+                        </div>
+
+                        <div class="input-box">
+                            <span class="details">E-Mail <sup style="color:red;">*</sup> </span>
+                            <input type="email" th:field = "*{email}" placeholder="Enter E-Mail" required >
+                        </div>
+
+                        <div class="input-box">
+                            <span class="details">Owner Contact <sup style="color:red;">*</sup> </span>
+                            <input type="tel" th:field = "*{ownerContact}" oninput="validateNumericInput(this)" placeholder="Enter Owner Contact" required >
+                        </div>
+
+                        <div class="input-box">
+                            <span class="details">Store Contact <sup style="color:red;">*</sup> </span>
+                            <input type="tel" th:field = "*{storeContact}" oninput="validateNumericInput(this)" placeholder="Enter Store Contact" >
+                        </div>
+                        
+                        <div class="input-box">
+                            <span class="details">Gst Number</span>
+                            <input type="text" th:field = "*{gstNo}" placeholder="Enter Store Code" required >
+                        </div>
+                        
+						<div class="input-box">
+						    <span class="details">City <sup style="color:red;">*</sup> </span>
+						    <input type="text" th:field="*{city}" id="cityInput" placeholder="Enter City" required>
+						</div>
+						
+						<div class="input-box">
+						    <span class="details">State <sup style="color:red;">*</sup> </span>
+						    <input type="text" th:field="*{state}" id="stateInput" placeholder="Enter State" required>
+						</div>
+						
+					  <div class="input-box">
+                                <label for="details" class="details">Full Address <sup style="color:red;">*</sup> </label>
+                                 <textarea id="fullAddressInput"  th:field="*{fullAddress}" name="fullAddress" placeholder="Enter Full Address" required></textarea>
                             </div>
 
-                            <div class="input-box">
-                                <span class="details">Store Code</span>
-                                <input type="text"  th:field = "*{storecode}" th:readonly="true" placeholder="Enter Store Code" required >
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">Owner Name</span>
-                                <input type="text" th:field = "*{ownername}" placeholder="Enter Owner Name" required >
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">E-Mail</span>
-                                <input type="email" th:field = "*{email}" placeholder="Enter E-Mail" required >
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">Primary Number</span>
-                                <input type="tel" th:field = "*{primaryNumber}" placeholder="Enter Primary Number" oninput="validateNumericInput(this)" required>
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">Secondary Number</span>
-                                <input type="tel" th:field = "*{secondaryNumber}" placeholder="Enter Secondary Number" oninput="validateNumericInput(this)" required>
-                            </div> 
-
-                            <div class="input-box">
-                                <span class="details">GST Number</span>
-                                <input type="tel" th:field = "*{gstno}" placeholder="Enter GST Number" required >
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">City</span>
-                                <input type="text" th:field = "*{city}" placeholder="Enter City" required >
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">Pin Code</span>
-                                <input type="text" th:field = "*{pincode}" placeholder="Enter Pincode" required >
-                            </div>
-                            <div class="input-box">
-                                <span class="details">State</span>
-                                <input type="text" th:field = "*{state}" placeholder="Enter State" required >
-                            </div>
-                            
-                            <div class="input-box">
-                                <label for="details" class="details">Full Address</label>
-                                 <textarea id="fullAddress" th:field = "*{fullAddress}" name="fullAddress" placeholder="Enter Full Address" required></textarea>
-                            </div>
-
-                            <div class="input-box">
-                                <span class="details">GMB Profile Link</span>
-                                <input type="text" th:field = "*{gmbProfileLink}" placeholder="Enter GMB Profile Link" required >
-                            </div>
+                        <div class="input-box">
+                            <span class="details">GMB Profile Link</span>
+                            <input type="text" th:field = "*{gmbProfileLink}" placeholder="Enter GMB Profile Link">
+                        </div>
 
                     </div>
                     <div class="button">
                         <input type="submit" value="Update">
-                        <li><a th:href="@{http://localhost:8086/faboclients}">Close</a></li>
+                        <li><a th:href="@{/faboclients}">Close</a></li>
                     </div>
                 </form>
             </div>
 
         </div>
     </div>
+    
+  <script>
+  // Get references to the input fields
+  const storeNameInput = document.getElementById('storeNameInput');
+  const cityInput = document.getElementById('cityInput');
+  const stateInput = document.getElementById('stateInput');
+  const fullAddressInput = document.getElementById('fullAddressInput');
+
+  // Add event listeners to storeName, city, and state input fields
+  storeNameInput.addEventListener('input', updateFullAddress);
+  cityInput.addEventListener('input', updateFullAddress);
+  stateInput.addEventListener('input', updateFullAddress);
+
+  // Function to update fullAddress field
+  function updateFullAddress() {
+      const storeName = storeNameInput.value;
+      const city = cityInput.value;
+      const state = stateInput.value;
+
+      // Update fullAddress based on storeName, city, and state
+      const updatedFullAddress = `${storeName}, ${city}, ${state}`;
+      fullAddressInput.value = updatedFullAddress;
+  }
+	</script>
 </body>
 
 </html>

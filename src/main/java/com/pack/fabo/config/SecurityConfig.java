@@ -28,7 +28,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomAuthenticationSuccessHandler successHandler) throws Exception {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
@@ -41,6 +41,8 @@ public class SecurityConfig {
                                 .requestMatchers("/client").hasRole("CLIENT_PRODUCTS")
                                 .requestMatchers("/client").hasRole("CLIENT_ACCOUNTS")
                                 .requestMatchers("/client").hasRole("CLIENT_CREATIVES")
+                                .requestMatchers("/admin").hasAnyRole("ADMIN_SUPPORT", "ADMIN_PRODUCTS", "ADMIN_ACCOUNTS")
+                                .requestMatchers("/client").hasAnyRole("CLIENT_SUPPORT", "CLIENT_PRODUCTS", "CLIENT_ACCOUNTS")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

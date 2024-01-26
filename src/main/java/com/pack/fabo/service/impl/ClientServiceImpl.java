@@ -41,7 +41,16 @@ public class ClientServiceImpl implements ClientService{
 
 	@Override
 	public void deleteClientById(Long id) {
-		clientRepository.deleteById(id);	
+		Optional<Client> clientOptional = clientRepository.findById(id);
+		
+		 if (clientOptional.isPresent()) {
+	            Client client = clientOptional.get();
+	            client.setActiveStatus(false); // Marking as inactive
+
+	            clientRepository.save(client);
+	        } else {
+	            throw new IllegalArgumentException("Client ID not found: " + id);
+	        }	
 	}
 	
     
@@ -61,6 +70,11 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public Optional<Client> getClientByEmail(String email) {
 		return clientRepository.findByEmail(email);
+	}
+
+	@Override
+	public Client getClientByStoreCode(String storeCode) {
+		return clientRepository.findByStoreCode(storeCode);
 	}
 
     

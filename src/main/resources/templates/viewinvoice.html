@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="viewinvoice.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    
     <title>FABO</title>
@@ -21,7 +20,7 @@ html {
     height: 100vh;
     display: flex;
     flex-direction: row;  
-    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url("/images/Desk-bg.jpg");
+    background:linear-gradient(to top, rgba(0,0,0,0.2),rgba(0,0,0,0.2)), url);
     background-position: center;
     background-size: 100% 100%;
     box-sizing: border-box;
@@ -525,7 +524,7 @@ tbody a{
                 <div class="title">
                     <h2>Invoices List</h2>
                     <div class="close-button">
-                        <li><a href=home1>X</a></li>
+                        <li><a href=home>X</a></li>
                     </div>
                 </div>
                 <div class="bar">
@@ -595,24 +594,35 @@ tbody a{
                     </div>
                 </div>
                 <div class="table-container">
-                    <table>
+                   <table>
                         <thead>
                             <tr>
-                                <th>Store Code</th>
+                                <th>Date</th>
+                                <th>Store Code</th>  
                                 <th>Store Name</th>
                                 <th>Invoice Type</th>
-                                <th>Action</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                              
                             </tr>
                         </thead>
                         <tbody id="clientsTableBody">
-             
-    		<tr th:each="invoice : ${invoices}">
-       			 <td th:text="${invoice.storeCode}"></td>
-        		 <td th:text="${invoice.storeName}"></td>
-        		 <td th:text="${invoice.invoiceType}"></td>
-      		     <td>
-         		   <li><a th:href="@{/viewinvoicedetails/{id}(id=${invoice.id})}"><i class="fa-regular fa-eye"></i></a></li>
-           		   <li><a th:href="@{/invoice/edit/{id}(id=${invoice.id})}">✏️</a></li>
+                          
+                            <tr th:each= "invoice : ${invoices}">
+                             <td th:text="${invoice.invoiceDate}">
+                             <td th:text="${invoice.storeCode}"></td>
+				        	 <td th:text="${invoice.storeName}"></td>
+				        	 <td th:text="${invoice.invoiceType}"></td>
+				        	 <td th:text="${invoice.invoiceAmount}"></td>
+				        	 <td th:text="${invoice.Status}"></td>   
+                             <td>
+                                   <li><a th:href="@{/viewinvoicedetails/{id}(id=${invoice.id})}"><i class="fa-regular fa-eye"></i></a></li>
+                                   <li title="Comment">
+                                   	  <a th:href="@{/invoice/pop/{id}(id=${invoice.id})}" >
+                                       	 <i class="fa-regular fa-comment"></i>
+                                      </a>
+                                   </li>
           	       <span class="action-icon delete-icon">
     <a th:href="@{/invoice/delete/{id}(id=${invoice.id})}" onclick="return confirmDelete('${invoice.id}')">🗑</a></span>
           	       
